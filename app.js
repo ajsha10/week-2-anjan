@@ -10,6 +10,12 @@ app.get('/cat', (req, res) => {
   res.send('From this endpoint you can get cats.')
 });
 
+app.get('/cat/:id',(req, res) => {
+  console.log('http get cat with path param', req.params);
+  res.send(`From this endpoint you can get cat with id ${req.params.id}.`);
+});
+
+
 app.get('/',(req, res) => {
   console.log('root route with req:', req.query);
   res.send(`Hello world <a href="cat">click</a> <br> with test is ${req.
