@@ -8,16 +8,17 @@ const getAllCats = async () => {
     const [rows] = await promisePool.query('SELECT * FROM wop_cat');
     return rows;
   } catch (e) {
-    console.err('catModel:', e.message);
+    console.error('catModel:', e.message);
   }
 };
 const getCat = async (id) => {
   try {
     // TODO: do the LEFT (or INNER) JOIN to get owner name too.
-    const [rows] = await promisePool.query(`SELECT * FROM wop_cat WHERE cat_id =${id}`);
-    return rows;
+    console.log('catModel getCat', id);
+    const [rows] = await promisePool.execute('SELECT * FROM wop_cat WHERE cat_id = ?', [id] );
+    return rows[0];
   } catch (e) {
-    console.err('catModel:', e.message);
+    console.error('catModel:', e.message);
   }
 };
 
