@@ -15,14 +15,33 @@ const getCat = async (id) => {
   try {
     // TODO: do the LEFT (or INNER) JOIN to get owner name too.
     console.log('catModel getCat', id);
-    const [rows] = await promisePool.execute('SELECT * FROM wop_cat WHERE cat_id = ?', [id] );
+    const [rows] = await promisePool.query(
+        'SELECT * FROM wop_cat WHERE cat_id = ?', [id]);
     return rows[0];
   } catch (e) {
     console.error('catModel:', e.message);
   }
 };
 
+const insertCat = async (req) => {
+  try {
+    const [rows, fields] = await promisePool.query(
+        'INSERT INTO wop_cat (name, age, weight, owner, filename) VALUES (?, ?, ?, ?, ?);',
+        [
+          req.body.name,
+          req.body.age,
+          req.body.weight,
+          req.body.owner,
+          req.file.filename]);
+    console.log('catModel insert:', rows, fields);
+    return rows.insertId;
+  } catch (e) {
+    console.error('catModel insertCat:', e);
+  }
+};
+
 module.exports = {
   getAllCats,
-  getCat
+  getCat,
+  insertCat,
 };

@@ -10,9 +10,7 @@ router.get('/', catController.cat_list_get);
 
 router.get('/:id',catController.cat_get_by_id);
 
-router.post('/', upload.single('cat'), (req, res) =>{
-  console.log('catRoute post', req.body, req.file);
-  res.send('trying to add cat ...')
-});
+router.post('/', upload.single('cat'), catController.cat_create);
+
 
 module.exports = router;
