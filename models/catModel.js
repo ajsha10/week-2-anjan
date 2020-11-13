@@ -37,6 +37,32 @@ const insertCat = async (req) => {
     return rows.insertId;
   } catch (e) {
     console.error('catModel insertCat:', e);
+    return 0;
+  }
+};
+
+const updateCat = async (id, req) => {
+  try {
+    const [rows] = await promisePool.query(
+        'UPDATE wop_cat SET name = ?, age = ?, weight = ? WHERE cat_id = ?;',
+        [req.body.name, req.body.age, req.body.weight, id]);
+    console.log('catModel update:', rows);
+    return rows.affectedRows === 1;
+  } catch (e) {
+    return false;
+  }
+};
+
+//TODO: delete function, Consider no return needed, just best effort...
+const deleteCat = async (id) => {
+  try {
+    const [
+      rows,
+    ] = await promisePool.execute('DELETE FROM wop_cat WHERE cat_id = ?', [id]);
+    console.log('catModel delete: ', rows);
+    return rows.affectedRows === 1;
+  } catch (e) {
+    return false;
   }
 };
 
@@ -44,4 +70,6 @@ module.exports = {
   getAllCats,
   getCat,
   insertCat,
+  updateCat,
+  deleteCat,
 };
