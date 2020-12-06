@@ -6,6 +6,8 @@ const catController = require('../controllers/catController');
 const router = express.Router();
 const upload = multer({ dest: 'uploads/'});
 
+
+
 router.get('/', catController.cat_list_get);
 router.post('/', upload.single('cat'), catController.cat_create);
 
