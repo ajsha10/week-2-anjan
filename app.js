@@ -12,6 +12,8 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(express.static('uploads'));
+
 // routes
 app.use('/', rootRoute);
 app.use('/cat', catRoute);
