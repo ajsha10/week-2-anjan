@@ -41,7 +41,14 @@ router.post('/',
     catController.cat_create);
 
 router.get('/:id',catController.cat_get_by_id);
-router.put('/', catController.cat_update);
+router.put('/',
+    [
+      body('name', 'cannot be empty').isLength({min: 2}),
+      body('age', 'must be filled').isLength({min: 1}).isNumeric(),
+      body('weight','must be a number').isLength({min: 1}).isNumeric(),
+      body('owner', 'required').isLength({min: 1}).isNumeric(),
+    ],
+    catController.cat_update);
 router.delete('/:id', catController.cat_delete);
 
 module.exports = router;

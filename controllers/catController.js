@@ -32,6 +32,11 @@ const cat_create = async (req, res) => {
 };
 
 const cat_update = async (req, res) => {
+  const errors =validationResult(req);
+  if (!errors.isEmpty()){
+    console.log('validation', errors.array());
+    return res.status(400).json({ errors: errors.array()});
+  }
   const updateOk = await catModel.updateCat(req);
   res.json(`{message: "updated.... ${updateOk}"}`);
 };

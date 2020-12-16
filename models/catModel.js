@@ -5,7 +5,9 @@ const promisePool = pool.promise();
 const getAllCats = async () => {
   try {
     // TODO: do the LEFT (or INNER) JOIN to get owner name too.
-    const [rows] = await promisePool.query('SELECT * FROM wop_cat');
+    const [rows] = await promisePool
+    .execute(`SELECT cat_id, wop+cat.name, age, weight, owner, filename, user_id, wop_user.name
+        AS ownername FROM wop_cat LEFT JOIN wop_user ON owner = user_id`);
     return rows;
   } catch (e) {
     console.error('catModel:', e.message);
@@ -15,7 +17,7 @@ const getCat = async (id) => {
   try {
     // TODO: do the LEFT (or INNER) JOIN to get owner name too.
     console.log('catModel getCat', id);
-    const [rows] = await promisePool.query(
+    const [rows] = await promisePool.execute(
         'SELECT * FROM wop_cat WHERE cat_id = ?', [id]);
     return rows[0];
   } catch (e) {
@@ -25,7 +27,7 @@ const getCat = async (id) => {
 
 const insertCat = async (req) => {
   try {
-    const [rows] = await promisePool.query(
+    const [rows] = await promisePool.execute(
         'INSERT INTO wop_cat (name, age, weight, owner, filename) VALUES (?, ?, ?, ?, ?);',
         [
           req.body.name,
@@ -43,7 +45,7 @@ const insertCat = async (req) => {
 
 const updateCat = async (id, req) => {
   try {
-    const [rows] = await promisePool.query(
+    const [rows] = await promisePool.execute(
         'UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?;',
         [req.body.name, req.body.age, req.body.weight, req.body.owner, req.body.id]);
     console.log('catModel update:', rows);
@@ -57,7 +59,7 @@ const updateCat = async (id, req) => {
 const deleteCat = async (id) => {
   try {
     console.log('delete getCat', id);
-    const [rows] = await promisePool.query('DELETE FROM wop_cat WHERE cat_id = ?', [id]);
+    const [rows] = await promisePool.execute('DELETE FROM wop_cat WHERE cat_id = ?', [id]);
     return rows;
   } catch (e) {
     console.error('catModel',e.message)
