@@ -5,7 +5,18 @@ const {body} = require('express-validator');
 const multer = require('multer');
 const catController = require('../controllers/catController');
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+
+//prevent multer for saving wrong file types
+const fileFilter = (req, file, cb) => {
+  if(!file.mimetype.includes('image')){
+    return cb(null, false, new Error('not an image'));
+  } else{
+    cb(null, true);
+  }
+}
+
+const upload = multer({ dest: 'uploads/', fileFilter});
+
 
 const injectFile = (req, res, next) => {
   if(req.file) {
