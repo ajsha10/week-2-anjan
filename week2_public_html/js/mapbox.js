@@ -1,5 +1,5 @@
 'use strict';
-mapboxgl.accessToken = 'pk.eyJ1IjoiaWxra2FtdGsiLCJhIjoiY2szZ2Z3ZGtzMDFkZTNpcDh2aGFndmg2dyJ9.CjPq5lceUKhfdWD3oqhjwg';
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW5qYW5zaCIsImEiOiJja2hhN3BpZzYwZzVkMzBwajR5YWg2dDM1In0.qutWbmA30M0AUj6597H79g';
 const map = new mapboxgl.Map({
   container: 'map', // container id
   style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
