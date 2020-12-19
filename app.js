@@ -6,7 +6,7 @@ const rootRoute = require('./routes/rootRoute');
 const catRoute = require('./routes/catRoute');
 const userRoute = require("./routes/userRoute.js");
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(cors());
 
