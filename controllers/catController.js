@@ -2,7 +2,7 @@
 // catController
 const catModel = require('../models/catModel');
 const {validationResult} = require('express-validator');
-
+const {makeThumbnail} = require('../utils/resize')
 
 const cats = catModel.cats;
 
@@ -26,6 +26,9 @@ const cat_create = async (req, res) => {
     console.log('validation', errors.array());
     return res.status(400).json({ errors: errors.array()});
   }
+
+  makeThumbnail(req.file.path, req.file.filename);
+
   const id = await catModel.insertCat(req)
   const cat = await catModel.getCat(id);
   res.send(cat);
