@@ -24,7 +24,8 @@ const users = userModel.users;
         if (!errors.isEmpty()) {
           return res.status(400).json({ errors: errors.array()});
         }
-        //const id = await userModel.insertUser(req);
+        const id = await userModel.insertUser(req);
+
         const user = await userModel.getUser(id);
         res.send(user);
       };

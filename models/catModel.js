@@ -5,8 +5,7 @@ const promisePool = pool.promise();
 const getAllCats = async () => {
   try {
     // TODO: do the LEFT (or INNER) JOIN to get owner name too.
-    const [rows] = await promisePool
-    .execute(`SELECT cat_id, wop_cat.name,age, weight, owner, filename, user_id, wop_user.name
+    const [rows] = await promisePool.execute(`SELECT cat_id, wop_cat.name,age, weight, owner, filename, user_id, wop_user.name
      AS ownername FROM wop_cat LEFT JOIN wop_user ON owner = user_id`);
     return rows;
   } catch (e) {
@@ -18,7 +17,8 @@ const getCat = async (id) => {
     // TODO: do the LEFT (or INNER) JOIN to get owner name too.
     console.log('catModel getCat', id);
     const [rows] = await promisePool.execute(
-        'SELECT * FROM wop_cat WHERE cat_id = ?', [id]);
+        'SELECT wop_cat.*, wop_user.name AS owner_name FROM wop_cat LEFT JOIN wop_user ON wop_cat.owner = wop_user.user_id WHERE wop_cat.cat_id = ?',
+        [id]);
     return rows[0];
   } catch (e) {
     console.error('catModel:', e.message);
@@ -47,7 +47,12 @@ const updateCat = async (id, req) => {
   try {
     const [rows] = await promisePool.execute(
         'UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?;',
-        [req.body.name, req.body.age, req.body.weight, req.body.owner, req.body.id]);
+        [
+          req.body.name,
+          req.body.age,
+          req.body.weight,
+          req.body.owner,
+          req.body.id]);
     console.log('catModel update:', rows);
     return rows.affectedRows === 1;
   } catch (e) {
@@ -58,11 +63,12 @@ const updateCat = async (id, req) => {
 //TODO: delete function, Consider no return needed, just best effort...
 const deleteCat = async (id) => {
   try {
+    const [rows] = await promisePool.execute(
+        'DELETE FROM wop_cat WHERE cat_id = ?', [id]);
     console.log('delete getCat', id);
-    const [rows] = await promisePool.execute('DELETE FROM wop_cat WHERE cat_id = ?', [id]);
-    return rows;
+    return rows.affectedRows === 1;
   } catch (e) {
-    console.error('catModel',e.message)
+    return false;
   }
 };
 
