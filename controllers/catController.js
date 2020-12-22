@@ -2,7 +2,8 @@
 // catController
 const catModel = require('../models/catModel');
 const {validationResult} = require('express-validator');
-const {makeThumbnail} = require('../utils/resize')
+const {makeThumbnail} = require('../utils/resize');
+const imageMeta = require('../utils/imageMeta');
 
 const cats = catModel.cats;
 
@@ -39,10 +40,13 @@ const cat_create = async (req, res) => {
     console.log('validation', errors.array());
     return res.status(400).json({ errors: errors.array()});
   }
+  //get gps coordinates from image
+  const coords = await imageMeta.getCoordinates(req.file.path);
+  console.log('coords', coords);
+  req.body.coords = coords;
 
 
-
-  const id = await catModel.insertCat(req)
+  const id = await catModel.insertCat(req);
   const cat = await catModel.getCat(id);
   res.send(cat);
 };
