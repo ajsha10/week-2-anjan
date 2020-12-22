@@ -17,6 +17,14 @@ const cat_get_by_id = async (req, res) => {
     res.json(cat);
 };
 
+const make_thumbnail = async (req, res, next) => {
+  const ready = await makeThumbnail(req.file.path, req.file.filename);
+  if(ready){
+    console.log('make_thumbnail', ready);
+    next();
+  }
+}
+
 const cat_create = async (req, res) => {
   // here we will create aat with  data coming from req..
 
@@ -27,7 +35,7 @@ const cat_create = async (req, res) => {
     return res.status(400).json({ errors: errors.array()});
   }
 
-  makeThumbnail(req.file.path, req.file.filename);
+
 
   const id = await catModel.insertCat(req)
   const cat = await catModel.getCat(id);
@@ -57,4 +65,5 @@ module.exports = {
   cat_create,
   cat_update,
   cat_delete,
+  make_thumbnail,
 };

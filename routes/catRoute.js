@@ -29,6 +29,7 @@ const injectFile = (req, res, next) => {
 router.get('/', catController.cat_list_get);
 router.post('/',
     upload.single('cat'),
+    catController.make_thumbnail,
     injectFile,
     [
       body('name', 'cannot be empty').isLength({min: 2}),
