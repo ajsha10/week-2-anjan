@@ -18,7 +18,7 @@ const cat_get_by_id = async (req, res) => {
 };
 
 const make_thumbnail = async (req, res, next) => {
-  const ready = await makeThumbnail(req.file.path, req.file.filename);
+  const ready = await makeThumbnail({width: 160, height: 160}, req.file.path, './thumbnails/' + req.file.filename);
   if(ready){
     console.log('make_thumbnail', ready);
     next();
