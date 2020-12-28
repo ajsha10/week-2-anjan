@@ -122,3 +122,7 @@ Temporary Items
 #Uploads must be created on every machine ....
 uploads
 
+#https certificate and keys must be generated on every machine AND NEVER MOVE OUT THERE EVER !!!
+certrequest.csr
+ssl-cert.pem
+ssl-key.pem
