@@ -1,13 +1,13 @@
 {
   "name": "week2",
   "version": "1.0.0",
-  "description": "",
+  "description": "Choose a branch and download as zip.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Anjan Shakya",
-  "license": "GPL-3",
+  "license": "UNLICENSED",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -18,5 +18,12 @@
   },
   "devDependencies": {
     "body-parser": "^1.19.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.metropolia.fi:bcwt-2020/week-2-anjan.git"
+  },
+  "keywords": [
+    "12345"
+  ]
 }

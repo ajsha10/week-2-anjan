@@ -9,13 +9,13 @@ const sslcert = fs.readFileSync('ssl-cert.pem');
 
 const options = {
   key: sslkey,
-  cert: sslcert
+  cert: sslcert,
 };
 
-const httpsRedirect = () => {
-    res.writeHead(301, { 'Location': 'https://localhost:8000' + req.url });
+const httpsRedirect = (req, res) => {
+  res.writeHead(301, {'Location': 'https://localhost:8000' + req.url});
   res.end();
-}
+};
 
 module.exports = (app, httpsPort, httpPort) => {
   https.createServer(options, app).listen(httpsPort);
