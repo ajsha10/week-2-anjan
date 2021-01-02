@@ -8,47 +8,46 @@ const router = express.Router();
 
 //prevent multer for saving wrong file types
 const fileFilter = (req, file, cb) => {
-  if(!file.mimetype.includes('image')){
+  if (!file.mimetype.includes('image')) {
     return cb(null, false, new Error('not an image'));
-  } else{
+  } else {
     cb(null, true);
   }
-}
+};
 
-const upload = multer({ dest: 'uploads/', fileFilter});
-
+const upload = multer({dest: 'uploads/', fileFilter});
 
 const injectFile = (req, res, next) => {
-  if(req.file) {
+  if (req.file) {
     req.body.type = req.file.mimetype;
   }
   console.log('inject', req.body);
   next();
-}
+};
 
-router.get('/', catController.cat_list_get);
-router.post('/',
+router.route('/')
+  .get(catController.cat_list_get)
+  .post(
     upload.single('cat'),
     injectFile,
     [
       body('name', 'cannot be empty').isLength({min: 2}),
       body('age', 'must be filled').isLength({min: 1}).isNumeric(),
-      body('weight','must be a number').isLength({min: 1}).isNumeric(),
+      body('weight', 'must be a number').isLength({min: 1}).isNumeric(),
       body('owner', 'required').isLength({min: 1}).isNumeric(),
       body('type', 'not image').contains('image'),
     ],
-
-    catController.cat_create);
-
-router.get('/:id',catController.cat_get_by_id);
-router.put('/',
+    catController.cat_create)
+  .put(
     [
       body('name', 'cannot be empty').isLength({min: 2}),
       body('age', 'must be filled').isLength({min: 1}).isNumeric(),
-      body('weight','must be a number').isLength({min: 1}).isNumeric(),
+      body('weight', 'must be a number').isLength({min: 1}).isNumeric(),
       body('owner', 'required').isLength({min: 1}).isNumeric(),
     ],
     catController.cat_update);
-router.delete('/:id', catController.cat_delete);
+router.route('/:id')
+  .get(catController.cat_get_by_id)
+  .delete(catController.cat_delete);
 
 module.exports = router;
