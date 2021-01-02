@@ -15,7 +15,8 @@ const getCoordinates = (imgFile) => { // imgFile = full path to uploaded image
           const coordinates = [
             gpsToDecimal(exifData.gps.GPSLongitude,
                 exifData.gps.GPSLongitudeRef),
-            gpsToDecimal(exifData.gps.GPSLatitude, exifData.gps.GPSLatitudeRef),
+            gpsToDecimal(exifData.gps.GPSLatitude,
+                exifData.gps.GPSLatitudeRef),
           ];
           resolve(coordinates);
         }
